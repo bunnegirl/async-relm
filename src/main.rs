@@ -21,7 +21,7 @@ impl AsyncHandlerMsg {
                 for index in 1..10 {
                     let item_sender = sender.clone();
                     let mut rng = rand::thread_rng();
-                    let seconds = rng.gen_range(0.0..2.0);
+                    let seconds = rng.gen_range(0.0..5.0);
 
                     tokio::spawn(async move {
                         tokio::time::sleep(std::time::Duration::from_secs_f32(seconds)).await;
@@ -45,9 +45,7 @@ fn main() {
 
     rt.spawn(async move {
         while let Some((msg, sender)) = rx.recv().await {
-            tokio::spawn(async move {
-                msg.recv(sender).await;
-            });
+            msg.recv(sender).await;
         }
     });
 
